@@ -3,10 +3,10 @@ package net.vvxzv.tfcadvancedcrucible.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.vvxzv.tfcadvancedcrucible.TFCAdvancedCrucible;
 import net.vvxzv.tfcadvancedcrucible.datagen.loot.ModLootTablesProvider;
 import net.vvxzv.tfcadvancedcrucible.datagen.patchouli.TFCPatchouliDataProvider;
@@ -19,7 +19,8 @@ import net.vvxzv.tfcadvancedcrucible.datagen.tfcdata.TFCHeatDataProvider;
 
 import java.util.concurrent.CompletableFuture;
 
-@Mod.EventBusSubscriber(modid = TFCAdvancedCrucible.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@SuppressWarnings("removal")
+@EventBusSubscriber(modid = TFCAdvancedCrucible.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class DataGen {
 
     @SubscribeEvent
@@ -41,7 +42,7 @@ public class DataGen {
         ModBlockTagsProvider blockTagsProvider = new ModBlockTagsProvider(output, lookup, helper);
         gen.addProvider(includeServer, blockTagsProvider);
         gen.addProvider(includeServer, new ModItemTagsProvider(output, lookup, blockTagsProvider.contentsGetter(), helper));
-        gen.addProvider(includeServer, new ModLootTablesProvider(output));
+        gen.addProvider(includeServer, new ModLootTablesProvider(output, lookup));
 
         genRecipes(gen, includeServer, output);
 

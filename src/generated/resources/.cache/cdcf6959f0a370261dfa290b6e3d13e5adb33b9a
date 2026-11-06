@@ -1,5 +1,5 @@
-// 1.20.1	2026-11-06T11:24:52.4361031	Tags for minecraft:block mod id tfcadvancedcrucible
-a4e2f2e6d3f8bc7192c23dfc53f1e3f9ecc4edcd data/minecraft/tags/blocks/mineable/pickaxe.json
-a4e2f2e6d3f8bc7192c23dfc53f1e3f9ecc4edcd data/minecraft/tags/blocks/needs_stone_tool.json
-9069490855cede3c34ddb276826951a2780e0dfd data/tfcadvancedcrucible/tags/blocks/crucible.json
-9069490855cede3c34ddb276826951a2780e0dfd data/tfc/tags/blocks/forge_invisible_whitelist.json
+// 1.21.1	2026-11-06T11:37:29.4282614	Tags for minecraft:block mod id tfcadvancedcrucible
+a4e2f2e6d3f8bc7192c23dfc53f1e3f9ecc4edcd data/minecraft/tags/block/mineable/pickaxe.json
+9069490855cede3c34ddb276826951a2780e0dfd data/tfcadvancedcrucible/tags/block/crucible.json
+9069490855cede3c34ddb276826951a2780e0dfd data/tfc/tags/block/charcoal_forge_invisible.json
+a4e2f2e6d3f8bc7192c23dfc53f1e3f9ecc4edcd data/tfc/tags/block/thermometer_readable.json

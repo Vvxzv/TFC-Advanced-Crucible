@@ -19,6 +19,7 @@ public enum AdvanceCrucibleComponentProvider implements IBlockComponentProvider 
             if(temperature > 2) {
                 iTooltip.add(TFCConfig.CLIENT.heatTooltipStyle.get().formatColored((int)temperature));
             }
+
             iTooltip.add(crucible.getOutputFaceComponent());
         }
     }

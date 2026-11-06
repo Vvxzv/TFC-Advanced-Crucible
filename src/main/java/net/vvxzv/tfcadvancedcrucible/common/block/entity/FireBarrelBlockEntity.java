@@ -1,8 +1,8 @@
 package net.vvxzv.tfcadvancedcrucible.common.block.entity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.Vec3i;
+import net.dries007.tfc.common.capabilities.InventoryWrapper;
+import net.dries007.tfc.common.container.ISlotCallback;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
@@ -20,11 +20,14 @@ import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.vvxzv.tfcadvancedcrucible.common.registry.BlockEntities;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class FireBarrelBlockEntity extends RandomizableContainerBlockEntity {
+public class FireBarrelBlockEntity extends RandomizableContainerBlockEntity implements ISlotCallback {
     private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
+    private final IItemHandler inventoryHandler;
     private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         @Override
         protected void onOpen(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state) {
@@ -55,22 +58,23 @@ public class FireBarrelBlockEntity extends RandomizableContainerBlockEntity {
 
     public FireBarrelBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntities.BARREL.get(), pPos, pBlockState);
+        this.inventoryHandler = new InventoryWrapper(this, this);
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag pTag) {
-        super.saveAdditional(pTag);
+    protected void saveAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider provider) {
+        super.saveAdditional(pTag, provider);
         if (!this.trySaveLootTable(pTag)) {
-            ContainerHelper.saveAllItems(pTag, this.items);
+            ContainerHelper.saveAllItems(pTag, this.items, provider);
         }
     }
 
     @Override
-    public void load(@NotNull CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider provider) {
+        super.loadAdditional(pTag, provider);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         if (!this.tryLoadLootTable(pTag)) {
-            ContainerHelper.loadAllItems(pTag, this.items);
+            ContainerHelper.loadAllItems(pTag, this.items, provider);
         }
     }
 
@@ -139,5 +143,9 @@ public class FireBarrelBlockEntity extends RandomizableContainerBlockEntity {
         double y = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
         double z = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
         this.level.playSound(null, x, y, z, pSound, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
+    }
+
+    public IItemHandler getInventoryHandler(@Nullable Direction direction) {
+        return this.inventoryHandler;
     }
 }

@@ -18,7 +18,7 @@ public class TFCHeatDataProvider extends TFCDataProvider {
     protected void buildData(Consumer<FinishedTFCData> pWriter) {
         heat(
                 pWriter,
-                TFCAdvancedCrucible.MODID + ":" + "unfired_large_crucible",
+                "tfcadvancedcrucible:unfired_large_crucible",
                 Ingredient.of(ModItems.UNFIRED_LARGE_CRUCIBLE.get()), 1
         );
     }
@@ -27,7 +27,7 @@ public class TFCHeatDataProvider extends TFCDataProvider {
         heat(pWriter, ResourceLocation.parse(id), ingredient, heat_capacity);
     }
 
-    public void heat(Consumer<FinishedTFCData> pWriter, String id, Ingredient ingredient, float heat_capacity, @Nullable Float forging_temperature, @Nullable Float welding_temperature) {
+    public void heat(Consumer<FinishedTFCData> pWriter, String id, Ingredient ingredient, float heat_capacity, float forging_temperature, float welding_temperature) {
         heat(pWriter, ResourceLocation.parse(id), ingredient, heat_capacity, forging_temperature, welding_temperature);
     }
 
@@ -35,7 +35,7 @@ public class TFCHeatDataProvider extends TFCDataProvider {
         pWriter.accept(new TFCHeatDataBuilder(id, ingredient, heat_capacity));
     }
 
-    public void heat(Consumer<FinishedTFCData> pWriter, ResourceLocation id, Ingredient ingredient, float heat_capacity, @Nullable Float forging_temperature, @Nullable Float welding_temperature) {
+    public void heat(Consumer<FinishedTFCData> pWriter, ResourceLocation id, Ingredient ingredient, float heat_capacity, float forging_temperature, float welding_temperature) {
         pWriter.accept(new TFCHeatDataBuilder(id, ingredient, heat_capacity, forging_temperature, welding_temperature));
     }
 }

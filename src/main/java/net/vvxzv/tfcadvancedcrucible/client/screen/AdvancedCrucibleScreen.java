@@ -1,22 +1,21 @@
 package net.vvxzv.tfcadvancedcrucible.client.screen;
 
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
-import net.dries007.tfc.client.ClientHelpers;
 import net.dries007.tfc.client.RenderHelpers;
-import net.dries007.tfc.common.capabilities.heat.Heat;
+import net.dries007.tfc.common.component.heat.Heat;
 import net.dries007.tfc.config.TFCConfig;
-import net.dries007.tfc.util.AlloyView;
+import net.dries007.tfc.util.FluidAlloy;
 import net.dries007.tfc.util.Helpers;
-import net.dries007.tfc.util.Metal;
-import net.dries007.tfc.util.Tooltips;
+import net.dries007.tfc.util.tooltip.Tooltips;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.vvxzv.tfcadvancedcrucible.common.block.entity.AdvancedCrucibleBlockEntity;
 import net.vvxzv.tfcadvancedcrucible.common.container.AdvancedCrucibleContainer;
 import org.jetbrains.annotations.NotNull;
@@ -79,38 +78,36 @@ public class AdvancedCrucibleScreen extends AbstractCrucibleScreen<AdvancedCruci
                 false
         );
 
-        AlloyView alloy = this.blockEntity.getAlloy();
-        if (alloy.getAmount() > 0) {
-            TextureAtlasSprite sprite = RenderHelpers.getAndBindFluidSprite(alloy.getResultAsFluidStack());
-            int fillHeight = (int)Math.ceil(31.0 * alloy.getAmount() / alloy.getMaxUnits());
+        FluidAlloy alloy = this.blockEntity.getAlloy();
+        FluidStack alloyResult = this.blockEntity.getAlloyResult();
+        if (alloy.getAmount() > 0 && !alloyResult.isEmpty()) {
+            TextureAtlasSprite sprite = RenderHelpers.getAndBindFluidSprite(alloyResult);
+            int fillHeight = (int)Math.ceil(31.0 * alloy.getAmount() / this.blockEntity.containerInfo().fluidCapacity());
             RenderHelpers.fillAreaWithSprite(graphics, sprite, this.leftPos + 97, this.topPos + 124 - fillHeight, 36, fillHeight, 16, 16);
             this.resetToBackgroundSprite();
 
-            Metal result = alloy.getResult(ClientHelpers.getLevelOrThrow());
-            String resultText = ChatFormatting.UNDERLINE + I18n.get(result.getTranslationKey());
+            Component resultText = alloyResult.getFluidType().getDescription().copy().withStyle(ChatFormatting.UNDERLINE);
             graphics.drawString(this.font, resultText, this.leftPos + 10, this.topPos + 11, 0, false);
 
-            int startElement = Math.max(0, (int)Math.floor((alloy.getMetals().size() - 3) / 49.0 * this.scrollPos + 1));
-
+            int startElement = Math.max(0, (int)Math.floor((alloy.getContent().size() - 3) / 49.0 * (this.scrollPos + 1)));
             int yPos = this.topPos + 22;
             int index = -1;
 
-            for (Object2DoubleMap.Entry<Metal> entry : alloy.getMetals().object2DoubleEntrySet()) {
+            for (Object2DoubleMap.Entry<Fluid> entry : alloy.getContent().object2DoubleEntrySet()) {
                 index++;
                 if (index >= startElement) {
-                    if (index > startElement - 1 + MAX_ELEMENTS) {
+                    if (index > startElement - 1 + 3) {
                         break;
                     }
 
-                    String metalName = this.font.plainSubstrByWidth(I18n.get(entry.getKey().getTranslationKey()), 141) + ":";
-                    MutableComponent content = Component.translatable("tfc.tooltip.crucible_content_line", Tooltips.fluidUnits(entry.getDoubleValue()), String.format("%2.1f", Math.round(1000.0 * entry.getDoubleValue() / alloy.getAmount()) / 10.0));
+                    String metalName = this.font.plainSubstrByWidth(entry.getKey().getFluidType().getDescription().getString(), 141) + ":";
+                    MutableComponent content = Component.translatable("tfc.tooltip.crucible_content_line", new Object[]{Tooltips.fluidUnits(entry.getDoubleValue()), String.format("%2.1f", (float) Math.round((double) 1000.0F * entry.getDoubleValue() / (double) alloy.getAmount()) / 10.0F)});
                     graphics.drawString(this.font, metalName, this.leftPos + 10, yPos, 4210752, false);
                     graphics.drawString(this.font, content, this.leftPos + 10, yPos + 9, 4210752, false);
                     yPos += 18;
                 }
             }
         }
-
     }
 
     @Override

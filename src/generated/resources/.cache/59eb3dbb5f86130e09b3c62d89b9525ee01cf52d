@@ -1,5 +1,5 @@
-// 1.20.1	2026-11-04T15:36:47.8720762	Loot Tables
-59e332088e732ca76c22b6595fd5495bf098bca9 data/tfcadvancedcrucible/loot_tables/blocks/advanced_crucible.json
-3f8ecc9a8e61d5fe2f470d60b6724b810c329925 data/tfcadvancedcrucible/loot_tables/blocks/fire_barrel.json
-a2c32e9034efc53792e0ed329909545c76f5daeb data/tfcadvancedcrucible/loot_tables/blocks/large_advanced_crucible.json
-4cbb9c49221d1f97476d9f7788a8e29d05548c2e data/tfcadvancedcrucible/loot_tables/blocks/large_crucible.json
+// 1.21.1	2026-11-05T21:24:16.5645327	Loot Tables
+8cae5c5af93ebf20f543ffc92cdbc610bb58e3db data/tfcadvancedcrucible/loot_table/blocks/advanced_crucible.json
+3f8ecc9a8e61d5fe2f470d60b6724b810c329925 data/tfcadvancedcrucible/loot_table/blocks/fire_barrel.json
+8e75064ae26a8dfccd940e8f4c8ef3ff333ee1e4 data/tfcadvancedcrucible/loot_table/blocks/large_advanced_crucible.json
+724e57178cca3577c8cac4145df8c6e0cbc12394 data/tfcadvancedcrucible/loot_table/blocks/large_crucible.json

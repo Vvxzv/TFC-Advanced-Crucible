@@ -6,20 +6,24 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import net.vvxzv.tfcadvancedcrucible.datagen.JsonHelper;
 
 import java.util.List;
 
 public class ShapelessRecipeBuilder extends RecipeBuilder {
-    private final Item result;
-    private final int count;
+    private final ItemStack result;
     private final List<Ingredient> ingredients = Lists.newArrayList();
 
     public ShapelessRecipeBuilder(ItemLike result, int count) {
-        this.result = result.asItem();
-        this.count = count;
+        this(new ItemStack(result, count));
+    }
+
+    public ShapelessRecipeBuilder(ItemStack result) {
+        this.result = result;
     }
 
     public ShapelessRecipeBuilder addIngredient(ItemLike pItem) {
@@ -49,18 +53,12 @@ public class ShapelessRecipeBuilder extends RecipeBuilder {
         JsonArray jsonarray = new JsonArray();
 
         for(Ingredient ingredient : this.ingredients) {
-            jsonarray.add(ingredient.toJson());
+            jsonarray.add(JsonHelper.of(ingredient));
         }
 
         pJson.add("ingredients", jsonarray);
-        JsonObject jsonobject = new JsonObject();
-        jsonobject.addProperty("item", BuiltInRegistries.ITEM.getKey(this.result).toString());
-        if (this.count > 1) {
-            jsonobject.addProperty("count", this.count);
-        }
 
-        pJson.add("result", jsonobject);
-
+        pJson.add("result", JsonHelper.of(this.result));
     }
 
     @Override

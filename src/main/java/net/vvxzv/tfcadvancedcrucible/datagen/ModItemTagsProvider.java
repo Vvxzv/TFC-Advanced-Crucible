@@ -5,8 +5,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.vvxzv.tfcadvancedcrucible.TFCAdvancedCrucible;
 import net.vvxzv.tfcadvancedcrucible.common.registry.ModBlocks;
 import net.vvxzv.tfcadvancedcrucible.common.utils.TagKeys;
@@ -23,7 +23,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider pProvider) {
-        this.tag(TagKeys.Items.ADJUSTMENT_TOOLS).addOptionalTag(TFCTags.Items.HAMMERS);
+        this.tag(TagKeys.Items.ADJUSTMENT_TOOLS).addOptionalTag(TFCTags.Items.TOOLS_HAMMER);
 
         this.tag(Tags.Items.BARRELS).add(ModBlocks.FIRE_BARREL.get().asItem());
     }

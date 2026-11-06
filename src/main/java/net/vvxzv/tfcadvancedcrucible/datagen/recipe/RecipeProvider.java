@@ -1,6 +1,8 @@
 package net.vvxzv.tfcadvancedcrucible.datagen.recipe;
 
 import com.google.common.collect.Sets;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -17,7 +19,7 @@ public abstract class RecipeProvider implements DataProvider {
     protected final PackOutput.PathProvider recipePathProvider;
 
     public RecipeProvider(PackOutput pOutput) {
-        this.recipePathProvider = pOutput.createPathProvider(PackOutput.Target.DATA_PACK, "recipes");
+        this.recipePathProvider = pOutput.createRegistryElementsPathProvider(Registries.RECIPE);
     }
 
     @Override

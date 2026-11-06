@@ -25,7 +25,7 @@ public class ShapelessRecipeProvider extends RecipeProvider  {
 
     @Override
     public @NotNull String getName() {
-        return "recipes/shapeless";
+        return "recipe/shapeless";
     }
 
     public ShapelessRecipeBuilder shapeless(ItemLike pResult) {

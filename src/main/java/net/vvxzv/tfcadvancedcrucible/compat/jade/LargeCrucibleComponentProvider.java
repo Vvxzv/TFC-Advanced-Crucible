@@ -20,7 +20,6 @@ public enum LargeCrucibleComponentProvider implements IBlockComponentProvider {
                 iTooltip.add(TFCConfig.CLIENT.heatTooltipStyle.get().formatColored((int)temperature));
             }
         }
-
     }
 
     @Override

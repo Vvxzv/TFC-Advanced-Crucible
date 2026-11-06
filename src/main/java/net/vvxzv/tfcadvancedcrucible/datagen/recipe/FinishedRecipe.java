@@ -10,9 +10,13 @@ public interface FinishedRecipe {
 
     default JsonObject serializeRecipe() {
         JsonObject jsonobject = new JsonObject();
-        jsonobject.addProperty("type", BuiltInRegistries.RECIPE_SERIALIZER.getKey(this.getType()).toString());
-        this.serializeRecipeData(jsonobject);
+        this.serializeRecipeData(this.addRecipeType(jsonobject));
         return jsonobject;
+    }
+
+    default JsonObject addRecipeType(JsonObject object) {
+        object.addProperty("type", BuiltInRegistries.RECIPE_SERIALIZER.getKey(this.getType()).toString());
+        return object;
     }
 
     ResourceLocation getId();

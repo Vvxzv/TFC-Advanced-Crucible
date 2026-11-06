@@ -4,8 +4,8 @@ import net.dries007.tfc.common.TFCTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.vvxzv.tfcadvancedcrucible.TFCAdvancedCrucible;
 import net.vvxzv.tfcadvancedcrucible.common.registry.ModBlocks;
 import net.vvxzv.tfcadvancedcrucible.common.utils.TagKeys;
@@ -22,7 +22,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider pProvider) {
-        this.tag(TFCTags.Blocks.FORGE_INVISIBLE_WHITELIST)
+        this.tag(TFCTags.Blocks.CHARCOAL_FORGE_INVISIBLE)
                 .add(ModBlocks.ADVANCED_CRUCIBLE.get())
                 .add(ModBlocks.LARGE_CRUCIBLE.get())
                 .add(ModBlocks.LARGE_ADVANCED_CRUCIBLE.get());
@@ -33,7 +33,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(ModBlocks.LARGE_CRUCIBLE.get())
                 .add(ModBlocks.LARGE_ADVANCED_CRUCIBLE.get());
 
-        this.tag(BlockTags.NEEDS_STONE_TOOL)
+        this.tag(TFCTags.Blocks.THERMOMETER_READABLE)
                 .add(ModBlocks.ADVANCED_CRUCIBLE.get())
                 .add(ModBlocks.FIRE_BARREL.get())
                 .add(ModBlocks.LARGE_CRUCIBLE.get())

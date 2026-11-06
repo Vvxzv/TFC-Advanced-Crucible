@@ -44,22 +44,21 @@ public abstract class TFCDataProvider implements DataProvider {
     protected abstract void buildData(Consumer<FinishedTFCData> pWriter);
 
     public enum TFCDataTypes {
-        CLIMATE("climate_ranges"),
-        DRINK("drinkables"),
-        ENTITY_DAMAGE("entity_damage_resistances"),
+        CLIMATE("climate_range"),
+        DEPOSIT("deposit"),
+        DRINK("drinkable"),
+        ENTITY_DAMAGE("entity_damage_resistance"),
         FAUNA("fauna"),
-        FERTILIZERS("fertilizers"),
-        FOOD("food_items"),
-        FUELS("fuels"),
-        ITEM_DAMAGE("item_damage_resistances"),
-        HEAT("item_heats"),
-        SIZE("item_sizes"),
-        KNAPPING("knapping_types"),
-        LAMP("lamp_fuels"),
-        METALS("metals"),
-        PANNING("panning"),
-        SLUICING("sluicing"),
-        SUPPORTS("supports");
+        FERTILIZER("fertilizer"),
+        FLUID_HEAT("fluid_heat"),
+        FOOD("food"),
+        FUEL("fuel"),
+        ITEM_DAMAGE("item_damage_resistance"),
+        HEAT("item_heat"),
+        SIZE("item_size"),
+        KNAPPING("knapping_type"),
+        LAMP("lamp_fuel"),
+        SUPPORTS("support");
 
         private final String dataName;
 

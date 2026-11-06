@@ -25,10 +25,10 @@ public class HeatingRecipeProvider extends RecipeProvider {
 
     @Override
     public @NotNull String getName() {
-        return "recipes/heating";
+        return "recipe/heating";
     }
 
     public HeatingRecipeBuilder heating(Ingredient ingredient, float temperature) {
-        return new HeatingRecipeBuilder(ingredient, temperature, null, null, null);
+        return new HeatingRecipeBuilder(ingredient, temperature);
     }
 }

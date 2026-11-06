@@ -1,9 +1,8 @@
 package net.vvxzv.tfcadvancedcrucible.common.container;
 
-import net.dries007.tfc.common.capabilities.Capabilities;
-import net.dries007.tfc.common.capabilities.MoldLike;
+import net.dries007.tfc.common.component.mold.IMold;
 import net.dries007.tfc.common.container.BlockEntityContainer;
-import net.dries007.tfc.common.container.CallbackSlot;
+import net.dries007.tfc.common.container.slot.CallbackSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.vvxzv.tfcadvancedcrucible.common.block.entity.LargeAdvancedCrucibleBlockEntity;
@@ -24,25 +23,23 @@ public class LargeAdvancedCrucibleContainer extends BlockEntityContainer<LargeAd
     protected boolean moveStack(@NotNull ItemStack stack, int slotIndex) {
         return switch (this.typeOf(slotIndex)) {
             case MAIN_INVENTORY, HOTBAR ->
-                    MoldLike.get(stack) != null ? !this.moveItemStackTo(stack, 27, 43, false) : !this.moveItemStackTo(stack, 0, 27, false);
+                    IMold.get(stack) != null ? !this.moveItemStackTo(stack, 27, 43, false) : !this.moveItemStackTo(stack, 0, 27, false);
             case CONTAINER -> !this.moveItemStackTo(stack, this.containerSlots, this.slots.size(), false);
         };
     }
 
     @Override
     protected void addContainerSlots() {
-        this.blockEntity.getCapability(Capabilities.ITEM).ifPresent((inventory) -> {
-            for(int slot = 0; slot <= 26; slot++) {
-                int line = slot / 9;
-                int column = slot % 9;
-                this.addSlot(new CallbackSlot(this.blockEntity, inventory, slot, 8 + column * 18, 7 + line * 18));
-            }
+        for(int slot = 0; slot <= 26; slot++) {
+            int line = slot / 9;
+            int column = slot % 9;
+            this.addSlot(new CallbackSlot(this.blockEntity, slot, 8 + column * 18, 7 + line * 18));
+        }
 
-            for (int slot = 27; slot <= 42; slot++) {
-                int line = (slot - 27) / 4;
-                int column = (slot - 27) % 4;
-                this.addSlot(new CallbackSlot(this.blockEntity, inventory, slot, 98 + column * 18, 64 + line * 18));
-            }
-        });
+        for (int slot = 27; slot <= 42; slot++) {
+            int line = (slot - 27) / 4;
+            int column = (slot - 27) % 4;
+            this.addSlot(new CallbackSlot(this.blockEntity, slot, 98 + column * 18, 64 + line * 18));
+        }
     }
 }

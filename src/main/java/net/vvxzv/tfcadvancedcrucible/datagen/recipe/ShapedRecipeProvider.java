@@ -45,14 +45,14 @@ public class ShapedRecipeProvider extends RecipeProvider {
                         .define('a', Items.OBSERVER)
                         .define('b', ModBlocks.LARGE_CRUCIBLE.get())
                         .define('c', Items.HOPPER)
-                        .define('d', TFCItems.METAL_ITEMS.get(Metal.Default.STEEL).get(Metal.ItemType.SHEET).get())
+                        .define('d', TFCItems.METAL_ITEMS.get(Metal.STEEL).get(Metal.ItemType.SHEET).get())
                         .id("tfcadvancedcrucible:large_advanced_crucible")
         );
     }
 
     @Override
     public @NotNull String getName() {
-        return "recipes/shaped";
+        return "recipe/shaped";
     }
 
     public ShapedRecipeBuilder shaped(ItemLike pResult) {

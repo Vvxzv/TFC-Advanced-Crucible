@@ -3,7 +3,6 @@ package net.vvxzv.tfcadvancedcrucible.compat.jade;
 import net.dries007.tfc.config.TFCConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.vvxzv.tfcadvancedcrucible.TFCAdvancedCrucible;
-import net.vvxzv.tfcadvancedcrucible.common.block.entity.AdvancedCrucibleBlockEntity;
 import net.vvxzv.tfcadvancedcrucible.common.block.entity.LargeAdvancedCrucibleBlockEntity;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
@@ -20,6 +19,7 @@ public enum LargeAdvanceCrucibleComponentProvider implements IBlockComponentProv
             if(temperature > 2) {
                 iTooltip.add(TFCConfig.CLIENT.heatTooltipStyle.get().formatColored((int)temperature));
             }
+
             iTooltip.add(crucible.getOutputFaceComponent());
         }
     }

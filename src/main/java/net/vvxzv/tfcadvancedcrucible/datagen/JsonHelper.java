@@ -1,33 +1,21 @@
 package net.vvxzv.tfcadvancedcrucible.datagen;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class JsonHelper {
-    public static JsonElement toJson(FluidStack fluidStack) {
-        JsonObject o = new JsonObject();
-        o.addProperty("fluid", BuiltInRegistries.FLUID.getKey(fluidStack.getFluid()).toString());
-        o.addProperty("amount", fluidStack.getAmount());
-        if (fluidStack.hasTag()) {
-            o.addProperty("nbt", fluidStack.getTag().toString());
-        }
-
-        return o;
+    public static JsonElement of(FluidStack fluidStack) {
+        return FluidStack.CODEC.encodeStart(JsonOps.INSTANCE, fluidStack).getOrThrow();
     }
 
-    public static JsonElement toJson(ItemStack stack) {
-        JsonObject object = new JsonObject();
-        object.addProperty("item", BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
-        if (stack.getCount() > 1) {
-            object.addProperty("count", stack.getCount());
-        }
-        if (stack.hasTag()) {
-            object.addProperty("nbt", stack.getTag().toString());
-        }
+    public static JsonElement of(ItemStack stack) {
+        return ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack).getOrThrow();
+    }
 
-        return object;
+    public static JsonElement of(Ingredient ingredient) {
+        return Ingredient.CODEC.encodeStart(JsonOps.INSTANCE, ingredient).getOrThrow();
     }
 }

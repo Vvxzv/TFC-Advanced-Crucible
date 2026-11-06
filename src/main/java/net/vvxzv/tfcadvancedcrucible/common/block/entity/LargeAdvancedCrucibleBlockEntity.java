@@ -1,23 +1,22 @@
 package net.vvxzv.tfcadvancedcrucible.common.block.entity;
 
 import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
-import net.dries007.tfc.common.capabilities.Capabilities;
-import net.dries007.tfc.common.capabilities.MoldLike;
-import net.dries007.tfc.common.capabilities.PartialFluidHandler;
 import net.dries007.tfc.common.capabilities.PartialItemHandler;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodTraits;
-import net.dries007.tfc.common.capabilities.heat.HeatCapability;
-import net.dries007.tfc.common.capabilities.heat.IHeat;
+import net.dries007.tfc.common.component.fluid.FluidContainerInfo;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.food.FoodTraits;
+import net.dries007.tfc.common.component.heat.HeatCapability;
+import net.dries007.tfc.common.component.heat.IHeat;
+import net.dries007.tfc.common.component.mold.IMold;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.recipes.HeatingRecipe;
-import net.dries007.tfc.common.recipes.inventory.ItemStackInventory;
 import net.dries007.tfc.config.TFCConfig;
-import net.dries007.tfc.util.Alloy;
-import net.dries007.tfc.util.AlloyView;
+import net.dries007.tfc.util.FluidAlloy;
 import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.util.data.FluidHeat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -28,10 +27,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.vvxzv.tfcadvancedcrucible.Config;
 import net.vvxzv.tfcadvancedcrucible.common.container.LargeAdvancedCrucibleContainer;
 import net.vvxzv.tfcadvancedcrucible.common.registry.BlockEntities;
@@ -52,7 +52,7 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
     private @Nullable Direction outputFace = null;
 
     public LargeAdvancedCrucibleBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntities.LARGE_ADVANCED_CRUCIBLE.get(), pos, state, CrucibleInventory::new, NAME);
+        super(BlockEntities.LARGE_ADVANCED_CRUCIBLE.get(), pos, state, CrucibleInventory::new);
         this.sidedInventory.on(
                         new PartialItemHandler(this.inventory).insert(
                                 0, 1, 2, 3, 4, 5, 6, 7, 8,
@@ -68,9 +68,6 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
                         31, 32, 33, 34,
                         35, 36, 37, 38,
                         39, 40, 41, 42), Direction.Plane.HORIZONTAL);
-
-        this.sidedFluidInventory.on(new PartialFluidHandler(this.inventory).insert(), Direction.UP)
-                .on(new PartialFluidHandler(this.inventory).extract(), Direction.Plane.HORIZONTAL);
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, LargeAdvancedCrucibleBlockEntity crucible) {
@@ -103,9 +100,8 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
                     HeatCapability.addTemp(inputHeat, crucible.temperature, 2.0F + crucible.temperature * 0.0025F);
                     HeatingRecipe recipe = crucible.cachedRecipes[slot];
                     if (recipe != null && recipe.isValidTemperature(inputHeat.getTemperature())) {
-                        ItemStackInventory inventory = new ItemStackInventory(inputStack);
-                        ItemStack outputItem = recipe.assemble(inventory, level.registryAccess());
-                        FluidStack outputFluid = recipe.assembleFluid(inventory);
+                        ItemStack outputItem = recipe.assembleItem(inputStack);
+                        FluidStack outputFluid = recipe.assembleFluid(inputStack);
                         FoodCapability.applyTrait(outputItem, FoodTraits.BURNT_TO_A_CRISP);
                         crucible.tryPushOutputItem(level, pos, outputItem, slot);
                         crucible.inventory.fill(outputFluid, IFluidHandler.FluidAction.EXECUTE);
@@ -116,7 +112,7 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
 
             if (canFill) {
                 ItemStack drainStack = crucible.inventory.getStackInSlot(slot);
-                MoldLike mold = MoldLike.get(drainStack);
+                IMold mold = IMold.get(drainStack);
                 if (mold != null && mold.isMolten() && FluidHelpers.transferExact(mold, crucible.inventory, 1)) {
                     if (crucible.fastPourTicks >= 0 && crucible.fastPourSlot == slot) {
                         crucible.fastPourTicks--;
@@ -159,9 +155,7 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
                 BlockPos targetPos = pos.relative(this.outputFace);
                 BlockEntity blockEntity = level.getBlockEntity(targetPos);
                 if (blockEntity != null) {
-                    IItemHandler targetHandler = blockEntity
-                            .getCapability(ForgeCapabilities.ITEM_HANDLER, this.outputFace.getOpposite())
-                            .orElse(null);
+                    IItemHandler targetHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, targetPos, this.outputFace.getOpposite());
                     if (targetHandler != null) {
                         ItemStack remainder = outputItem.copy();
                         for (int i = 0; i < targetHandler.getSlots() && !remainder.isEmpty(); i++) {
@@ -178,17 +172,22 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
     }
 
     @Override
-    public AlloyView getAlloy() {
+    public FluidAlloy getAlloy() {
         return this.inventory.alloy;
     }
 
     @Override
+    public FluidContainerInfo containerInfo() {
+        return CrucibleInventory.INFO;
+    }
+
+    @Override
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-        if(HeatCapability.maybeHas(stack)) {
+        if(HeatCapability.has(stack)) {
             if(slot >= HEAT_SLOT_START && slot <= HEAT_SLOT_END) {
                 return true;
             } else {
-                return Helpers.mightHaveCapability(stack, Capabilities.FLUID_ITEM);
+                return Helpers.mightHaveCapability(stack, Capabilities.FluidHandler.ITEM);
             }
         }
 
@@ -215,15 +214,15 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
     }
 
     @Override
-    public void loadAdditional(@NotNull CompoundTag nbt) {
+    public void loadAdditional(CompoundTag nbt, HolderLookup.@NotNull Provider provider) {
         this.outputFace = this.parseDirectionOrNull(nbt.getString("outputFace"));
-        super.loadAdditional(nbt);
+        super.loadAdditional(nbt, provider);
     }
 
     @Override
-    public void saveAdditional(@NotNull CompoundTag nbt) {
+    public void saveAdditional(CompoundTag nbt, HolderLookup.@NotNull Provider provider) {
         nbt.putString("outputFace", this.parseOutputFaceToString());
-        super.saveAdditional(nbt);
+        super.saveAdditional(nbt, provider);
     }
 
     @Override
@@ -251,9 +250,19 @@ public class LargeAdvancedCrucibleBlockEntity extends AbstractCrucibleBlockEntit
         this.setChanged();
     }
 
-    static class CrucibleInventory extends AbstractCrucibleBlockEntity.AbstractCrucibleInventory {
+    static class CrucibleInventory extends AbstractCrucibleInventory {
+        private static final FluidContainerInfo INFO = new FluidContainerInfo() {
+            public boolean canContainFluid(@NotNull Fluid input) {
+                return FluidHeat.get(input) != null;
+            }
+
+            public int fluidCapacity() {
+                return Config.largeAdvancedCrucibleCapacity;
+            }
+        };
+
         CrucibleInventory(InventoryBlockEntity<?> entity) {
-            super(entity, SLOTS, new Alloy(Config.largeAdvancedCrucibleCapacity));
+            super(entity, SLOTS, INFO);
         }
     }
 }

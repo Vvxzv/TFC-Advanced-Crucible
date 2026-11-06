@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -24,9 +25,8 @@ public class LargeAdvancedCrucibleBlock extends CrucibleBlock {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if(hand == InteractionHand.MAIN_HAND) {
-            ItemStack stack = player.getMainHandItem();
             if(stack.is(TagKeys.Items.ADJUSTMENT_TOOLS)) {
                 if(level.getBlockEntity(pos) instanceof LargeAdvancedCrucibleBlockEntity crucible) {
                     if(crucible.getOutputFace() != hit.getDirection()) {
@@ -35,15 +35,16 @@ public class LargeAdvancedCrucibleBlock extends CrucibleBlock {
                         crucible.setOutputFace(null);
                     }
 
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
-        }
-        if (player instanceof ServerPlayer serverPlayer) {
-            level.getBlockEntity(pos, BlockEntities.LARGE_ADVANCED_CRUCIBLE.get()).ifPresent((crucible) -> Helpers.openScreen(serverPlayer, crucible, crucible.getBlockPos()));
-            return InteractionResult.SUCCESS;
+
+            if (player instanceof ServerPlayer serverPlayer) {
+                level.getBlockEntity(pos, BlockEntities.LARGE_ADVANCED_CRUCIBLE.get()).ifPresent((crucible) -> serverPlayer.openMenu(crucible, crucible.getBlockPos()));
+                return ItemInteractionResult.SUCCESS;
+            }
         }
 
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 }

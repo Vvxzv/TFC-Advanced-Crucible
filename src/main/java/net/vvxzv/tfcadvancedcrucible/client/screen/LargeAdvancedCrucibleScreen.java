@@ -2,9 +2,9 @@ package net.vvxzv.tfcadvancedcrucible.client.screen;
 
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.dries007.tfc.client.RenderHelpers;
-import net.dries007.tfc.common.capabilities.heat.Heat;
+import net.dries007.tfc.common.component.heat.Heat;
 import net.dries007.tfc.config.TFCConfig;
-import net.dries007.tfc.util.AlloyView;
+import net.dries007.tfc.util.FluidAlloy;
 import net.dries007.tfc.util.Metal;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,7 +13,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.vvxzv.tfcadvancedcrucible.TFCAdvancedCrucible;
 import net.vvxzv.tfcadvancedcrucible.client.utils.CustomTooltipComponent;
 import net.vvxzv.tfcadvancedcrucible.common.block.entity.LargeAdvancedCrucibleBlockEntity;
@@ -47,19 +48,19 @@ public class LargeAdvancedCrucibleScreen extends AbstractCrucibleScreen<LargeAdv
                 false
         );
 
-        AlloyView alloy = this.blockEntity.getAlloy();
-        if (alloy.getAmount() > 0) {
-            FluidStack fluidStack = alloy.getResultAsFluidStack();
-            TextureAtlasSprite sprite = RenderHelpers.getAndBindFluidSprite(fluidStack);
-            int fillHeight = (int)Math.ceil(31.0 * alloy.getAmount() / alloy.getMaxUnits());
+        FluidAlloy alloy = this.blockEntity.getAlloy();
+        FluidStack alloyResult = this.blockEntity.getAlloyResult();
+        if (alloy.getAmount() > 0 && !alloyResult.isEmpty()) {
+            TextureAtlasSprite sprite = RenderHelpers.getAndBindFluidSprite(alloyResult);
+            int fillHeight = (int)Math.ceil(31.0 * alloy.getAmount() / this.blockEntity.containerInfo().fluidCapacity());
             RenderHelpers.fillAreaWithSprite(graphics, sprite, this.leftPos + 35, this.topPos + 114 - fillHeight, 36, fillHeight, 16, 16);
             this.resetToBackgroundSprite();
 
-            Object2DoubleMap<Metal> metals = alloy.getMetals();
-            List<Component> texts = new ArrayList<>(List.of(Component.translatable(fluidStack.getTranslationKey()).withStyle(ChatFormatting.UNDERLINE, ChatFormatting.BOLD)));
-            metals.forEach((m, d) -> {
+            Object2DoubleMap<Fluid> fluids = alloy.getContent();
+            List<Component> texts = new ArrayList<>(List.of(Component.translatable(alloyResult.getFluidType().getDescriptionId()).withStyle(ChatFormatting.UNDERLINE, ChatFormatting.BOLD)));
+            fluids.forEach((f, d) -> {
                 texts.add(
-                        Component.translatable(m.getTranslationKey())
+                        Component.translatable(f.getFluidType().getDescriptionId())
                                 .append(Component.literal(" (" + String.format("%.1f", d) + "mb)"))
                 );
             });

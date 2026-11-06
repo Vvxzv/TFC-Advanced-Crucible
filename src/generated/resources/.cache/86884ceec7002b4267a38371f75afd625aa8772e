@@ -1,3 +1,3 @@
-// 1.20.1	2026-11-03T00:59:11.6069102	Tags for minecraft:item mod id tfcadvancedcrucible
-b63319d5e69367978b6264a7cc57077c1445e8e9 data/forge/tags/items/barrels.json
-18d7e3ec4437b9ccbe0f6493bee46981c4989398 data/tfcadvancedcrucible/tags/items/adjustment_tools.json
+// 1.21.1	2026-11-05T21:24:16.5505723	Tags for minecraft:item mod id tfcadvancedcrucible
+b63319d5e69367978b6264a7cc57077c1445e8e9 data/c/tags/item/barrels.json
+07f53adc6547859c1ee77f936e558bf32fb45d23 data/tfcadvancedcrucible/tags/item/adjustment_tools.json
