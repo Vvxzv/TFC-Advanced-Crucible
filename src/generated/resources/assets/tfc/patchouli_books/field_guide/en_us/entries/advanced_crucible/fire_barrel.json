@@ -1,0 +1,11 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:fire_barrel",
+  "name": "Fire Barrel",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Fire Barrel $() is a non flammable storage container used in conjunction with the automatic output function of $(thing)Advanced Crucible $()to achieve automated calcination of items."
+    }
+  ]
+}

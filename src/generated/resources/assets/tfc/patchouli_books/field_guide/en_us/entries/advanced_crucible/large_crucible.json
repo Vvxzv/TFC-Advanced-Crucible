@@ -1,0 +1,11 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:large_crucible",
+  "name": "Large Crucible",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Large Crucible $()is a three in one version of $(thing)Crucible$(), with a fluid capacity four times that of the original, and can simultaneously pour 16 molds! But its melting speed is slower than that of $(thing)Crucible$()."
+    }
+  ]
+}

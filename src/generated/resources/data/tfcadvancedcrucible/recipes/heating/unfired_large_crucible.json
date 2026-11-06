@@ -1,0 +1,12 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "item": "tfcadvancedcrucible:unfired_large_crucible"
+  },
+  "result_item": {
+    "stack": {
+      "item": "tfcadvancedcrucible:large_crucible"
+    }
+  },
+  "temperature": 1399.0
+}

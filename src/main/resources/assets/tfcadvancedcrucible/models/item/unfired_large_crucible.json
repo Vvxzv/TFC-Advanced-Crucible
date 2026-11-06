@@ -1,0 +1,6 @@
+{
+  "parent" : "item/generated",
+  "textures" : {
+    "layer0" : "tfcadvancedcrucible:item/unfired_large_crucible"
+  }
+}

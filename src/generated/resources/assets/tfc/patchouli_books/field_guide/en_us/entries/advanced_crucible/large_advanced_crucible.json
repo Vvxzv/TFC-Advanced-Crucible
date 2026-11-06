@@ -1,0 +1,12 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:large_advanced_crucible",
+  "name": "Large Advanced Crucible",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The $(thing)Large crucible $()with $(thing)Advanced Crucible $()function.",
+      "title": "Large Advanced Crucible"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "tfc:fire_bricks"
+    },
+    "b": {
+      "item": "minecraft:bricks"
+    }
+  },
+  "pattern": [
+    "aba",
+    "a a",
+    "aba"
+  ],
+  "result": {
+    "item": "tfcadvancedcrucible:fire_barrel"
+  }
+}

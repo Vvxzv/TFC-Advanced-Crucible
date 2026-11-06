@@ -1,0 +1,12 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:large_advanced_crucible",
+  "name": "大型高级坩埚",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "具有$(thing)高级坩埚$()功能的$(thing)大型坩埚。$()",
+      "title": "大型高级坩埚"
+    }
+  ]
+}

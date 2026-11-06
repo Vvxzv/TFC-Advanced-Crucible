@@ -1,0 +1,26 @@
+{
+  "tfcadvancedcrucible.tab.name": "TFC Advanced Crucible",
+
+  "gui.tfcadvancedcrucible.mode.none": "None",
+  "gui.tfcadvancedcrucible.mode.north": "North",
+  "gui.tfcadvancedcrucible.mode.south": "South",
+  "gui.tfcadvancedcrucible.mode.east": "East",
+  "gui.tfcadvancedcrucible.mode.west": "West",
+  "gui.tfcadvancedcrucible.mode.up": "Up",
+  "gui.tfcadvancedcrucible.mode.down": "Down",
+  "gui.tfcadvancedcrucible.mode": "Auto Item Output",
+
+  "config.jade.plugin_tfcadvancedcrucible.advanced_crucible": "Advanced Crucible",
+  "config.jade.plugin_tfcadvancedcrucible.large_crucible": "Large Crucible",
+  "config.jade.plugin_tfcadvancedcrucible.large_advanced_crucible": "Large Advanced Crucible",
+
+  "tfcadvancedcrucible.tile_entity.crucible": "Crucible",
+  "tfcadvancedcrucible.tile_entity.fire_barrel": "Fire Barrel",
+
+  "block.tfcadvancedcrucible.advanced_crucible": "Advanced Crucible",
+  "block.tfcadvancedcrucible.large_crucible": "Large Crucible",
+  "block.tfcadvancedcrucible.large_advanced_crucible": "Large Advanced Crucible",
+  "block.tfcadvancedcrucible.fire_barrel": "Fire Barrel",
+
+  "item.tfcadvancedcrucible.unfired_large_crucible": "Unfired Large Crucible"
+}

@@ -1,0 +1,11 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:fire_barrel",
+  "name": "耐火桶",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)耐火桶$()是一个不会被点燃的储物容器，用于配合$(thing)高级坩埚$()的自动输出功能从而实现自动化煅烧物品。"
+    }
+  ]
+}

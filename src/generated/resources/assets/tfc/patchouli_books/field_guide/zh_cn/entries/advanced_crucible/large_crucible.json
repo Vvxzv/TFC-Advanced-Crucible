@@ -1,0 +1,11 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:large_crucible",
+  "name": "大型坩埚",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)大型坩埚$()是$(thing)坩埚$()的三合一版本，流体容量是原来的4倍，并且可以同时浇筑16个模具！但是它的熔炼速度比$(thing)坩埚$()慢。"
+    }
+  ]
+}

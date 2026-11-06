@@ -1,0 +1,11 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:advanced_crucible",
+  "name": "高级坩埚",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)高级坩埚$()比$(thing)坩埚$()熔炼速度更快，而且多一种功能：$(l)煅烧物品成品自动弹出$()$(br2)调整输出方向的方法就是手持$(thing)锤子$()右键$(thing)高级坩埚$()的一面将其调整为输出面，然后$(thing)高级坩埚$()在煅烧完成物品时就会尝试自动输出到这一面所对应的容器。"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "tfcadvancedcrucible.tab.name": "群峦高级坩埚",
+
+  "gui.tfcadvancedcrucible.mode.none": "无",
+  "gui.tfcadvancedcrucible.mode.north": "北",
+  "gui.tfcadvancedcrucible.mode.south": "南",
+  "gui.tfcadvancedcrucible.mode.east": "东",
+  "gui.tfcadvancedcrucible.mode.west": "西",
+  "gui.tfcadvancedcrucible.mode.up": "上",
+  "gui.tfcadvancedcrucible.mode.down": "下",
+  "gui.tfcadvancedcrucible.mode": "自动物品输出",
+
+  "config.jade.plugin_tfcadvancedcrucible.advanced_crucible": "高级坩埚",
+  "config.jade.plugin_tfcadvancedcrucible.large_crucible": "大型坩埚",
+  "config.jade.plugin_tfcadvancedcrucible.large_advanced_crucible": "大型高级坩埚",
+
+  "tfcadvancedcrucible.tile_entity.crucible": "坩埚",
+  "tfcadvancedcrucible.tile_entity.fire_barrel": "耐火桶",
+
+  "block.tfcadvancedcrucible.advanced_crucible": "高级坩埚",
+  "block.tfcadvancedcrucible.large_crucible": "大型坩埚",
+  "block.tfcadvancedcrucible.large_advanced_crucible": "大型高级坩埚",
+  "block.tfcadvancedcrucible.fire_barrel": "耐火桶",
+
+  "item.tfcadvancedcrucible.unfired_large_crucible": "未烧制的大型坩埚"
+}

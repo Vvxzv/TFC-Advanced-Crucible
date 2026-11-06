@@ -1,0 +1,11 @@
+{
+  "category": "tfc:advanced_crucible",
+  "icon": "tfcadvancedcrucible:advanced_crucible",
+  "name": "Advanced Crucible",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Advanced Crucible $()have a faster melting speed than $(thing)Crucible $()and an additional function: $(l)automatic ejection of calcined products into finished products$()$(br2)The method to adjust the output direction is to hold a $(thing)Hammer $()and right-click on one side of the $(thing)Advanced Crucible $()to adjust it to the output side. Then, when the item is calcined, the $(thing)Advanced Crucible $()will attempt to automatically output to the container corresponding to this side."
+    }
+  ]
+}

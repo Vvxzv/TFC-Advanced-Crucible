@@ -1,0 +1,48 @@
+package net.vvxzv.tfcadvancedcrucible.common.block;
+
+import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.devices.CrucibleBlock;
+import net.dries007.tfc.util.Helpers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.vvxzv.tfcadvancedcrucible.common.block.entity.AdvancedCrucibleBlockEntity;
+import net.vvxzv.tfcadvancedcrucible.common.registry.BlockEntities;
+import net.vvxzv.tfcadvancedcrucible.common.utils.TagKeys;
+import org.jetbrains.annotations.NotNull;
+
+public class AdvancedCrucibleBlock extends CrucibleBlock {
+    public AdvancedCrucibleBlock(ExtendedProperties properties) {
+        super(properties);
+    }
+
+    @Override
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+        if(hand == InteractionHand.MAIN_HAND) {
+            ItemStack stack = player.getMainHandItem();
+            if(stack.is(TagKeys.Items.ADJUSTMENT_TOOLS)) {
+                if(level.getBlockEntity(pos) instanceof AdvancedCrucibleBlockEntity crucible) {
+                    if(crucible.getOutputFace() != hit.getDirection()) {
+                        crucible.setOutputFace(hit.getDirection());
+                    } else {
+                        crucible.setOutputFace(null);
+                    }
+
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        }
+        if (player instanceof ServerPlayer serverPlayer) {
+            level.getBlockEntity(pos, BlockEntities.ADVANCED_CRUCIBLE.get()).ifPresent((crucible) -> Helpers.openScreen(serverPlayer, crucible, crucible.getBlockPos()));
+            return InteractionResult.SUCCESS;
+        }
+
+        return InteractionResult.PASS;
+    }
+}

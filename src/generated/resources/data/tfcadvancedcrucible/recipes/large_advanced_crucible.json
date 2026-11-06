@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "minecraft:observer"
+    },
+    "b": {
+      "item": "tfcadvancedcrucible:large_crucible"
+    },
+    "c": {
+      "item": "minecraft:hopper"
+    },
+    "d": {
+      "item": "tfc:metal/sheet/steel"
+    }
+  },
+  "pattern": [
+    " a ",
+    "dbd",
+    " c "
+  ],
+  "result": {
+    "item": "tfcadvancedcrucible:large_advanced_crucible"
+  }
+}

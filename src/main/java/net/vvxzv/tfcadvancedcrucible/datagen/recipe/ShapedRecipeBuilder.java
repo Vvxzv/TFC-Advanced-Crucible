@@ -1,0 +1,81 @@
+package net.vvxzv.tfcadvancedcrucible.datagen.recipe;
+
+import com.google.common.collect.Maps;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
+
+import java.util.List;
+import java.util.Map;
+
+public class ShapedRecipeBuilder extends RecipeBuilder {
+    private final Item result;
+    private final int count;
+    private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
+    private List<String> patterns;
+
+    public ShapedRecipeBuilder(ItemLike pResult, int pCount) {
+        this.result = pResult.asItem();
+        this.count = pCount;
+    }
+
+    public ShapedRecipeBuilder patterns(List<String> patterns) {
+        this.patterns = patterns;
+        return this;
+    }
+
+    public ShapedRecipeBuilder define(Character pSymbol, TagKey<Item> pTag) {
+        return this.define(pSymbol, Ingredient.of(pTag));
+    }
+
+    public ShapedRecipeBuilder define(Character pSymbol, ItemLike pItem) {
+        return this.define(pSymbol, Ingredient.of(pItem));
+    }
+
+    public ShapedRecipeBuilder define(Character pSymbol, Ingredient pIngredient) {
+        if (this.key.containsKey(pSymbol)) {
+            throw new IllegalArgumentException("Symbol '" + pSymbol + "' is already defined!");
+        } else if (pSymbol == ' ') {
+            throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
+        } else {
+            this.key.put(pSymbol, pIngredient);
+            return this;
+        }
+    }
+
+    @Override
+    public void serializeRecipeData(JsonObject pJson) {
+        JsonArray jsonarray = new JsonArray();
+
+        for(String s : this.patterns) {
+            jsonarray.add(s);
+        }
+
+        pJson.add("pattern", jsonarray);
+        JsonObject jsonobject = new JsonObject();
+
+        for(Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
+            jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
+        }
+
+        pJson.add("key", jsonobject);
+        JsonObject result = new JsonObject();
+        result.addProperty("item", BuiltInRegistries.ITEM.getKey(this.result).toString());
+        if (this.count > 1) {
+            result.addProperty("count", this.count);
+        }
+
+        pJson.add("result", result);
+
+    }
+
+    @Override
+    public RecipeSerializer<?> getType() {
+        return RecipeSerializer.SHAPED_RECIPE;
+    }
+}
